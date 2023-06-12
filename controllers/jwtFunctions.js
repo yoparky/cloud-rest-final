@@ -1,6 +1,7 @@
 'use strict';
 
-const { expressjwt: expressJwt } = require('express-jwt');
+// const { expressjwt: expressJwt } = require('express-jwt');
+const jwt = require('express-jwt');
 const jwksRsa = require('jwks-rsa');
 const config = require('../config');
 
@@ -8,7 +9,7 @@ const DOMAIN = config.DOMAIN;
 const CLIENT_ID = config.CLIENT_ID;
 const CLIENT_SECRET = config.CLIENT_SECRET;
 
-const checkJwt = expressJwt({
+const checkJwt = jwt({
     secret: jwksRsa.expressJwtSecret({
       cache: true,
       rateLimit: true,

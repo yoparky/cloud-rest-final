@@ -36,13 +36,14 @@ function get_load(id) {
 }
 
 function get_loads(req) {
-    var query = config.datastore.createQuery(config.LOAD).limit(3);
+    var query = config.datastore.createQuery(config.LOAD).limit(5);
     const results = {};
     if(Object.keys(req.query).includes("cursor")) {
         query = query.start(req.query.cursor);
     }
     return config.datastore.runQuery(query).then(entities => {
         // id attribute added to all entities[0]
+        results.count = entities[0].length;
         results.loads = entities[0].map(helpers.fromDatastore);
         if (entities[1].moreResults !== config.datastore.NO_MORE_RESULTS) {
             results.next =  req.protocol + "://" + req.get("host") + req.baseUrl + "?cursor=" + entities[1].endCursor;
@@ -63,9 +64,43 @@ async function delete_load(id) {
     return config.datastore.delete(key);
 }
 
+function put_load(id, volume, item, creation_date) {
+    const key = helpers.getKey(config.datastore, LOAD, id);
+    const edit_boat = {
+        "volume": volume,
+        "carrier": null,
+        "item": item,
+        "creation_date": creation_date
+    }
+    return config.datastore.save({
+        "key": key,
+        "data": edit_boat
+    });
+}
+
+function patch_load(id, req, load) {
+    const key = helpers.getKey(config.datastore, LOAD, id);
+    const body = req.body;
+    // console.log(body);
+    for (const property in body) {
+        if (property in load[0] && property !== 'id') {
+            load[0][property] = body[property];
+        }
+    }
+    load[0]['carrier'] = null;
+    // console.log(boat);
+
+    return config.datastore.save({
+        "key": key,
+        "data": load[0]
+    });
+}
+
 module.exports = {
     post_load,
     get_load,
     get_loads,
-    delete_load
+    delete_load,
+    put_load,
+    patch_load
 }

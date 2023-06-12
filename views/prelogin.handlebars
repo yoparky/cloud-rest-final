@@ -4,11 +4,43 @@
     <title>Harbor Master</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
     <style>
+        /* Add any additional custom styles here */
         body {
             padding-top: 70px; /* Add space for the fixed navigation bar */
         }
-        .jwt-container {
-            overflow-wrap: break-word;
+        
+        .container {
+            position: relative;
+            text-align: center;
+            color: #ffffff;
+        }
+
+        .container img {
+            width: 100%;
+            height: auto;
+        }
+
+        .container .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(0, 0, 0, 0.6);
+        }
+
+        .container h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        .container p {
+            font-size: 18px;
+            margin-bottom: 30px;
         }
     </style>
 </head>
@@ -31,33 +63,19 @@
                 </ul>
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="/logout">Logout</a>
+                        <a class="nav-link" href="/login">Login</a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
 
+    <!-- Main content -->
     <div class="container">
-        <div class="mb-4">
-            <h1>Hello {{nickname}},</h1>
+        <img src="https://images.pexels.com/photos/753331/pexels-photo-753331.jpeg" alt="Background Image">
+        <div class="overlay">
+            <h1>Welcome to Harbor Master</h1>
+            <p>Explore the world of maritime management with our comprehensive platform.</p>
         </div>
-        <div class="mb-4">
-            <h2>your uid is: </h2>
-        </div>
-        <div class="bg-light p-3 rounded mb-4 jwt-container">
-            <p>{{uid}}</p>
-        </div>
-        <div class="mb-4">
-            <h2>your JWT Token is: </h2>
-        </div>
-        <div class="bg-light p-3 rounded mb-4 jwt-container">
-            <p>{{jwt}}</p>
-        </div>
-    
     </div>
-    
-    <!-- Include Bootstrap JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+

@@ -22,13 +22,14 @@ function get_load(id) {
     });
 }
 // Begin boat Model Functions
-function post_boat(name, type, length) {
+function post_boat(name, type, length, owner) {
     var key = config.datastore.key(BOAT);
     const new_boat = {
         "name": name,
         "type": type,
         "length": length,
-        "loads": []
+        "loads": [],
+        "owner": owner
     }
     return config.datastore.save({
         "key": key,
@@ -47,15 +48,18 @@ function get_boat(id) {
     });
 }
 
-function get_boats(req) {
-    // 3 per page
-    var query = config.datastore.createQuery(BOAT).limit(3);
+function get_boats(req, owner) {
+    // 5 per page
+    const query = config.datastore.createQuery(config.BOAT)
+        .filter('owner', '=', owner)
+        .limit(5);
     const results = {};
     if(Object.keys(req.query).includes("cursor")) {
         query = query.start(req.query.cursor);
     }
     return config.datastore.runQuery(query).then(entities => {
         // id attribute added to all entities[0]
+        results.count = entities[0].length;
         results.boats = entities[0].map(helpers.fromDatastore);
         if (entities[1].moreResults !== config.datastore.NO_MORE_RESULTS) {
             results.next =  req.protocol + "://" + req.get("host") + req.baseUrl + "?cursor=" + entities[1].endCursor;
@@ -181,6 +185,39 @@ function get_boat_loads(req, id) {
     });
 }
 
+function patch_boat(id, req, boat) {
+    const key = helpers.getKey(config.datastore, BOAT, id);
+    const body = req.body;
+    // console.log(body);
+    for (const property in body) {
+        if (property in boat[0] && property !== 'id') {
+            boat[0][property] = body[property];
+        }
+    }
+    // console.log(boat);
+
+    return config.datastore.save({
+        "key": key,
+        "data": boat[0]
+    });
+}
+
+// put will reset loads
+function put_boat(id, name, type, length, owner) {
+    const key = helpers.getKey(config.datastore, BOAT, id);
+    const edit_boat = {
+        "name": name,
+        "type": type,
+        "length": length,
+        "loads": [],
+        "owner": owner
+    }
+    return config.datastore.save({
+        "key": key,
+        "data": edit_boat
+    });
+}
+
 module.exports = {
     post_boat,
     get_boat,
@@ -188,5 +225,7 @@ module.exports = {
     put_load_in_boat,
     delete_load_from_boat,
     delete_boat,
-    get_boat_loads
+    get_boat_loads,
+    patch_boat,
+    put_boat
 }

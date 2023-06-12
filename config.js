@@ -2,22 +2,24 @@
 
 const { Datastore } = require('@google-cloud/datastore');
 
-const DOMAIN = 'a7-jwt.us.auth0.com';
-const CLIENT_ID = 'Flobmhc4jGDbDWLJIJ69eVBI8KBibOMg';
-const CLIENT_SECRET = 'vItKIt4yrqz056QeeTSixSdmqw4a652nEl3_haDZqVMJfQ6ZfmQ2mb4aZJVwVlpJ';
-const ISSUER_BASE_URL = 'a7-jwt.us.auth0.com';
+const BASE_URL = 'localhost:8080';
+const CLIENT_ID = 'JZBeYH3V7nHdytXRUmGwW2LBAM3drz0c';
+const CLIENT_SECRET = '-csAtJQ7PIkfTYik43znDp0-PTRVa6dGqCjuik7btGju6uuowUzCjUz8D5ErrTzf';
+const DOMAIN = 'a9-493final.us.auth0.com';
 const datastore = new Datastore({
     projectId: 'a9-portfolio',
   });
 const LOAD = "Load";
 const BOAT = "Boat";
+const USER = "User";
 
 module.exports = {
     DOMAIN: DOMAIN,
     CLIENT_ID: CLIENT_ID,
     CLIENT_SECRET: CLIENT_SECRET,
-    ISSUER_BASE_URL: ISSUER_BASE_URL,
+    BASE_URL: BASE_URL,
     datastore: datastore,
     LOAD: LOAD,
-    BOAT: BOAT
+    BOAT: BOAT,
+    USER: USER
 }

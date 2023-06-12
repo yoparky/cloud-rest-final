@@ -3,6 +3,7 @@
 const express = require('express');
 const app = express();
 const conf = require('./config');
+const userController = require('./controllers/userController');
 
 const { Datastore } = require('@google-cloud/datastore');
 
@@ -15,14 +16,17 @@ app.engine('handlebars', eh.engine());
 app.set('view engine', 'handlebars');
 app.set('views', './views');
 
+const request = require('request');
+
 // JWT
 const { auth } = require('express-openid-connect');
 const config = {
     authRequired: false,
     auth0Logout: true,
-    baseURL: `https://${conf.DOMAIN}`,
+    // check for http when using localhost
+    baseURL: `http://${conf.BASE_URL}`,
     clientID: conf.CLIENT_ID,
-    issuerBaseURL: `https://${conf.ISSUER_BASE_URL}`,
+    issuerBaseURL: `https://${conf.DOMAIN}`,
     secret: conf.CLIENT_SECRET
 }
 // auth router attaches /login, /logout, and /callback routes to the baseURL
@@ -32,73 +36,38 @@ app.use(auth(config));
 // routes for login, logout, view id_token
 const { requiresAuth } = require('express-openid-connect');
 
-app.get('/profile', requiresAuth(), (req, res) => {
-    res.render('token-login');
-});
-
-app.post('/submit', (req, res) => {
-    const username = req.body.username;
-    const password = req.body.password;
-    var options = { method: 'POST',
-            url: `https://${conf.DOMAIN}/oauth/token`,
-            headers: { 'content-type': 'application/json' },
-            body:
-             { grant_type: 'password',
-               username: username,
-               password: password,
-               client_id: conf.CLIENT_ID,
-               client_secret: conf.CLIENT_SECRET },
-            json: true };
-    request(options, (error, response, body) => {
-        if (error){
-            res.status(500).send(error);
-        } else {
-            const info = {};
-            info.access_token = body.access_token;
-            info.id_token = body.id_token;
-            res.render('info', info);
+app.get('/', async (req, res) => {
+    if (req.oidc.isAuthenticated()) {
+        const sub = req.oidc.user.sub;
+        const checkDup = await userController.get_user(sub);
+        
+        
+        console.log(checkDup);
+        // Check if the user is in DB and if not, add user with uid=sub
+        if (checkDup.length === 0) {
+            userController.post_user(sub, req.oidc.user.nickname);
         }
-    });
-  });
-
-app.get('/', (req, res) => {
-    req.oidc.isAuthenticated() ? res.render('home') : res.redirect('/login');
-
+        console.log(req.oidc.idToken);
+        res.render('home', {nickname: req.oidc.user.nickname, jwt: req.oidc.idToken, uid: sub});
+    } else {
+        res.render('prelogin');
+    }
 });
 
-const login = express.Router();
-
-login.post('/', function(req, res){
-    const username = req.body.username;
-    const password = req.body.password;
-    var options = { method: 'POST',
-            url: `https://${conf.DOMAIN}/oauth/token`,
-            headers: { 'content-type': 'application/json' },
-            body:
-             { grant_type: 'password',
-               username: username,
-               password: password,
-               client_id: conf.CLIENT_ID,
-               client_secret: conf.CLIENT_SECRET },
-            json: true };
-    request(options, (error, response, body) => {
-        if (error){
-            res.status(500).send(error);
-        } else {
-            res.send(body);
-        }
-    });
-
+app.get('/about', (req, res) => {
+    res.render('about');
 });
 
-app.use('/login', login);
-// routes for login, logout, view id_token END
-
+app.get('/api-docs', (req, res) => {
+    res.render('api-docs');
+});
 // REST API
 app.use(`/loads`, require('./routes/api/load.js'));
 app.use(`/boats`, require('./routes/api/boat.js'));
+app.use(`/users`, require('./routes/api/user.js'));
+
 // https
-app.enable('trust proxy');
+//app.enable('trust proxy');
 
 if (module === require.main) {
     const PORT = process.env.PORT || 8080;
