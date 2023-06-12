@@ -67,7 +67,7 @@ app.use(`/boats`, require('./routes/api/boat.js'));
 app.use(`/users`, require('./routes/api/user.js'));
 
 // https
-//app.enable('trust proxy');
+app.enable('trust proxy');
 
 if (module === require.main) {
     const PORT = process.env.PORT || 8080;
