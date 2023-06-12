@@ -1,13 +1,9 @@
 'use strict';
 
-//const { Datastore } = require('@google-cloud/datastore');
 const helpers = require('./helpers');
 const boatController = require('./boatController');
 const config = require('../config');
 
-// const datastore = new Datastore({
-//     projectId: 'a9-portfolio',
-//   });
 const LOAD = "Load";
 
 function post_load(volume, item, creation_date) {
@@ -42,7 +38,6 @@ function get_loads(req) {
         query = query.start(req.query.cursor);
     }
     return config.datastore.runQuery(query).then(entities => {
-        // id attribute added to all entities[0]
         results.count = entities[0].length;
         results.loads = entities[0].map(helpers.fromDatastore);
         if (entities[1].moreResults !== config.datastore.NO_MORE_RESULTS) {
@@ -81,14 +76,13 @@ function put_load(id, volume, item, creation_date) {
 function patch_load(id, req, load) {
     const key = helpers.getKey(config.datastore, LOAD, id);
     const body = req.body;
-    // console.log(body);
+
     for (const property in body) {
         if (property in load[0] && property !== 'id') {
             load[0][property] = body[property];
         }
     }
     load[0]['carrier'] = null;
-    // console.log(boat);
 
     return config.datastore.save({
         "key": key,

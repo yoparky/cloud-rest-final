@@ -18,28 +18,6 @@ router.post('/', async function (req, res) {
     res.status(405).json({"Error": 'POST is not supported. Users are automatically added when signing up'});
 });
 
-// router.post('/', function (req, res) {
-//     if (req.get('content-type') !== 'application/json') {
-//         res.status(415).json({"Error": 'Server only accepts application/json data'});
-//     } else if (!req.accepts(['application/json'])) {
-//         res.status(406).json({"Error": 'Server only responds in application/json data'});
-//     } else if (req.body.hasOwnProperty('uid')) {
-//         var uid = req.body.uid;
-//         userController.post_user(uid)
-//             .then(key => {
-//                 res.status(201).json(
-//                     {
-//                         "id": key.id,
-//                         "uid": uid,
-//                         "self": req.protocol + "://" + req.get("host") + req.baseUrl + "/" + key.id
-//                     }
-//                 )
-//             });
-//     } else {
-//         res.status(400).json({"Error": "The request object is missing at least one of the required attributes"});
-//     }
-// });
-
 router.get('/:user_id', function (req, res) {
     if (!req.accepts(['application/json'])) {
         res.status(406).json({"Error": 'Server only responds in application/json data'});

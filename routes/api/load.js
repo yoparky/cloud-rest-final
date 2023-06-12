@@ -131,8 +131,6 @@ router.put('/:load_id', function (req, res) {
     }
 });
 
-
-
 router.patch('/:load_id', function (req, res) {
     if (req.get('content-type') !== 'application/json') {
         res.status(415).json({"Error": 'Server only accepts application/json data'});

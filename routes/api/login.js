@@ -8,7 +8,6 @@ const app = express();
 app.use(bodyParser.json());
 const router = express.Router();
 
-
 router.post('/', function (req, res) {
     if (req.body.hasOwnProperty('uid')) {
         var uid = req.body.uid;
@@ -26,12 +25,6 @@ router.post('/', function (req, res) {
         res.status(400).json({"Error": "The request object is missing at least one of the required attributes"});
     }
 });
-
-
-
-
-//////////
-
 
 router.get('/:load_id', function (req, res) {
     loadController.get_load(req.params.load_id)

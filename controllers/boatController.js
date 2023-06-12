@@ -1,12 +1,8 @@
 'use strict';
 
-// const { Datastore } = require('@google-cloud/datastore');
 const helpers = require('./helpers');
 const config = require('../config');
 
-// const datastore = new Datastore({
-//     projectId: 'a9-portfolio',
-//   });
 const BOAT = config.BOAT;
 const LOAD = config.LOAD;
 
@@ -21,7 +17,7 @@ function get_load(id) {
         }
     });
 }
-// Begin boat Model Functions
+
 function post_boat(name, type, length, owner) {
     var key = config.datastore.key(BOAT);
     const new_boat = {
@@ -146,7 +142,6 @@ async function delete_load_from_boat(boat_id, load_id) {
     });
 }
 
-
 async function delete_boat(id) {
     
     const key = helpers.getKey(config.datastore, BOAT, id);
@@ -188,14 +183,12 @@ function get_boat_loads(req, id) {
 function patch_boat(id, req, boat) {
     const key = helpers.getKey(config.datastore, BOAT, id);
     const body = req.body;
-    // console.log(body);
+
     for (const property in body) {
         if (property in boat[0] && property !== 'id') {
             boat[0][property] = body[property];
         }
     }
-    // console.log(boat);
-
     return config.datastore.save({
         "key": key,
         "data": boat[0]

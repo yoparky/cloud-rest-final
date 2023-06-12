@@ -1,6 +1,5 @@
 'use strict';
 
-// const { expressjwt: expressJwt } = require('express-jwt');
 const jwt = require('express-jwt');
 const jwksRsa = require('jwks-rsa');
 const config = require('../config');

@@ -5,7 +5,6 @@ const bodyParser = require('body-parser');
 const loadController = require('../../controllers/loadController');
 const boatController = require('../../controllers/boatController');
 const jwtFunctions = require('../../controllers/jwtFunctions');
-// middleware jwtFunctions.checkJwt
 
 const app = express();
 app.use(bodyParser.json());
@@ -20,8 +19,6 @@ router.delete('/', async function (req, res) {
 });
 
 router.post('/', jwtFunctions.checkJwt, function (req, res) {
-    console.log(req.user);
-
     if (!req.user) {
         return res.status(401).json({"Error": 'Missing or invalid jwt'});
     }
@@ -37,7 +34,6 @@ router.post('/', jwtFunctions.checkJwt, function (req, res) {
         var owner = req.user.sub;
         boatController.post_boat(name, type, length, owner)
             .then(key => {
-                // consider doing a get and returning a json of the actual db status
                 res.status(201).json(
                     {
                         "id": key.id,
