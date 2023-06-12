@@ -24,7 +24,7 @@ const config = {
     authRequired: false,
     auth0Logout: true,
     // check for http when using localhost
-    baseURL: `http://${conf.BASE_URL}`,
+    baseURL: `${conf.BASE_URL}`,
     clientID: conf.CLIENT_ID,
     issuerBaseURL: `https://${conf.DOMAIN}`,
     secret: conf.CLIENT_SECRET
