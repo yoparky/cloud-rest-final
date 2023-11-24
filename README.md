@@ -1,5 +1,5 @@
 # Harbor Master - A Node.js REST API Project with Auth0 Authentication
-## [Click here to visit the portfolio website](https://a9-portfolio.wl.r.appspot.com/)
+## [Click here to visit Harbor Master](https://a9-portfolio.wl.r.appspot.com/)
 This repository hosts a Node.js-based REST API project, Harbor Master, designed as a RESTful API that allows ship owners and operators to efficiently track and manage their vessels' cargo loads, deployed on Google Cloud Platform (GCP). 
 The project leverages Google Datastore for persistent storage and integrates Auth0 for robust OAuth authentication.
 
@@ -10,7 +10,7 @@ The project leverages Google Datastore for persistent storage and integrates Aut
 - **Datastore Integration**: Utilizes Google Datastore for structured data storage, ensuring scalability and flexibility.
 - **GCP Deployment**: The application is deployed on Google Cloud Platform, leveraging the cloud's capabilities for high availability and performance.
 - **Pagination & Status Codes**: Implements pagination for data queries and comprehensive HTTP status code handling.
-- **Entity Relationships and API Documentation**: ![API Documentation PDF](parky8_project.pdf)
+- **Entity Relationships and API Documentation**: [API Documentation PDF](parky8_project.pdf)
 
 ## Entity Overview
 
@@ -35,7 +35,7 @@ The API features resource-based URLs with endpoints for managing users, boats, a
 - `PUT /boats/{id}`: Updates a specific boat's details.
 - `DELETE /boats/{id}`: Deletes a specific boat.
 - `GET /loads`: Lists loads with pagination support.
-- Refer to the ![API Documentation PDF](parky8_project.pdf) for more endpoints.
+- Refer to the [API Documentation PDF](parky8_project.pdf) for more endpoints.
 
 ## Authentication with Auth0
 
@@ -50,7 +50,7 @@ User authentication is handled through Auth0. The application redirects to Auth0
 ## HTTP Status Codes
 
 The application appropriately responds with various HTTP status codes, including but not limited to 200 (OK), 201 (Created), 401 (Unauthorized), and 403 (Forbidden).
-For more details, refer to the ![API Documentation PDF](parky8_project.pdf).
+For more details, refer to the [API Documentation PDF](parky8_project.pdf).
 
 ## Deployment and Usage
 
