@@ -2,6 +2,7 @@
 ## [Click here to visit Harbor Master](https://a9-portfolio.wl.r.appspot.com/)
 This repository hosts a Node.js-based REST API project, Harbor Master, designed as a RESTful API that allows ship owners and operators to efficiently track and manage their vessels' cargo loads, deployed on Google Cloud Platform (GCP). 
 The project leverages Google Datastore for persistent storage and integrates Auth0 for robust OAuth authentication.
+Also check out a [docker containerized early version of the project at](https://github.com/yoparky/cloud-rest-docker).
 
 ## Features
 
