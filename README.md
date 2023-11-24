@@ -35,7 +35,7 @@ The API features resource-based URLs with endpoints for managing users, boats, a
 - `PUT /boats/{id}`: Updates a specific boat's details.
 - `DELETE /boats/{id}`: Deletes a specific boat.
 - `GET /loads`: Lists loads with pagination support.
-- Refer to the [API Documentation PDF](parky8_project.pdf) for more endpoints.
+- Create, Put, Patch, Get, List all, Assign and unassign, and many more. Refer to the [API Documentation PDF](parky8_project.pdf) for more endpoints.
 
 ## Authentication with Auth0
 
