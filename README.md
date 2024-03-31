@@ -61,7 +61,4 @@ The application is hosted on GCP.
 
 A comprehensive Postman test suite is included for endpoint validation, including tests for CRUD operations and authentication flows.
 
-## License
-[MIT License](LICENSE).
-
 ---
