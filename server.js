@@ -37,6 +37,7 @@ app.use(auth(config));
 const { requiresAuth } = require('express-openid-connect');
 
 app.get('/', async (req, res) => {
+    // Auth0 middleware to check logged in status
     if (req.oidc.isAuthenticated()) {
         const sub = req.oidc.user.sub;
         const checkDup = await userController.get_user(sub);
@@ -47,7 +48,7 @@ app.get('/', async (req, res) => {
         if (checkDup.length === 0) {
             userController.post_user(sub, req.oidc.user.nickname);
         }
-        console.log(req.oidc.idToken);
+        // console.log(req.oidc.idToken);
         res.render('home', {nickname: req.oidc.user.nickname, jwt: req.oidc.idToken, uid: sub});
     } else {
         res.render('prelogin');

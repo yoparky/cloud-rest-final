@@ -2,12 +2,13 @@
 
 const { Datastore } = require('@google-cloud/datastore');
 
-// helper to set item id from datastore
+// Modifies a Datastore entity object to include its ID as a direct property of the object. 
 function fromDatastore(item) {
     item.id = item[Datastore.KEY].id;
     return item;
 }
-// helper to get key from datastore
+// constructs and returns a Datastore key using the provided kind and id. 
+// This key uniquely identifies an entity in Datastore for easy retreival of entry
 function getKey(datastore, kind, id) {
     return datastore.key([kind, parseInt(id, 10)]);
 }

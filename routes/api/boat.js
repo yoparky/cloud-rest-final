@@ -22,9 +22,10 @@ router.post('/', jwtFunctions.checkJwt, function (req, res) {
     if (!req.user) {
         return res.status(401).json({"Error": 'Missing or invalid jwt'});
     }
-
+    // content-type header
     if (req.get('content-type') !== 'application/json') {
         res.status(415).json({"Error": 'Server only accepts application/json data'});
+    // accept header
     } else if (!req.accepts(['application/json'])) {
         res.status(406).json({"Error": 'Server only responds in application/json data'});
     } else if (req.body.hasOwnProperty('name') && req.body.hasOwnProperty('type') && req.body.hasOwnProperty('length')) {
@@ -46,6 +47,7 @@ router.post('/', jwtFunctions.checkJwt, function (req, res) {
                     }
                 )
             });
+    // body contents
     } else {
         res.status(400).json({"Error":  "The request object is missing at least one of the required attributes"});
     }

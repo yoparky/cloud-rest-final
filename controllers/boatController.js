@@ -19,6 +19,7 @@ function get_load(id) {
 }
 
 function post_boat(name, type, length, owner) {
+    // gen datastore key for entity of kind BOAT
     var key = config.datastore.key(BOAT);
     const new_boat = {
         "name": name,
@@ -50,6 +51,7 @@ function get_boats(req, owner) {
         .filter('owner', '=', owner)
         .limit(5);
     const results = {};
+    // check if request contains a cursor in query param. Continues to next cursor if it does
     if(Object.keys(req.query).includes("cursor")) {
         query = query.start(req.query.cursor);
     }
@@ -58,6 +60,7 @@ function get_boats(req, owner) {
         results.count = entities[0].length;
         results.boats = entities[0].map(helpers.fromDatastore);
         if (entities[1].moreResults !== config.datastore.NO_MORE_RESULTS) {
+            // append next cursor if there are more than 5 entities
             results.next =  req.protocol + "://" + req.get("host") + req.baseUrl + "?cursor=" + entities[1].endCursor;
         }
         return results;
